@@ -1,33 +1,37 @@
-// Author: ufo008ahw
-// Last modified: 2013-09-15 22:15
+/*
+ * graph.cpp
+ *
+ *  Created on: Aug 29, 2014
+ *      Author: ufo008ahw
+ */
 
-/**********************************************
- * Description: Get minmial span tree.
- * Input: 1. n: graph node number,
- *        2. tree[]: to be filled with span tree
- * Output: tree[]
- * Note: Time complexity: O(n^2), capable for dense graph.
- **********************************************/
+#include "myAlgorithm.h"
 
-#define NMAX 100000
-void MST(int n, int tree[])
+/*
+ * Input: graph, a adjacent matrix.
+ * Ouput: tree, tree[i] store the father node. return the connected part number.
+ * Complexity: O(n^2).
+ */
+static int minSpanTree_prime(vector<vector<int> > &graph, vector<int> &tree)
 {
-	bool flag[NMAX];
-	int closet[NMAX];
+	assert(graph.size() == graph[0].size());
+	int nodeNum = graph.size();
 
-	int i, j, v, min;
-	for (i = 0; i < n; i++)
+	vector<int> flag(nodeNum);
+	vector<bool> cost(nodeNum);
+
+	priority_queue<int,
+
+	int startNode = 0;
+	while(1)
 	{
-		closet[i] = graph[0][i];
-		flag[i] = 0;
-	}
-	tree[0] = 0;
-	flag[0] = 1;
-	for (i = 1; i < n; i++)
-	{
-		min = 1000000;
-		v = 0;
-		for (j = 0; j < n; j++)
+		for()
+
+		for (i = 1; i < n; i++)
+		{
+			min = 1000000;
+			v = 0;
+			for (j = 0; j < n; j++)
 		{
 			if (!flag[j] && closet[j] < min)
 			{
@@ -46,15 +50,15 @@ void MST(int n, int tree[])
 	}
 }
 
-/**********************************************
+/*
  * Description: Gijkstra single source shortest path.
  * Input: 1. n: graph node number,
  *        2. path[]: shortest path
  * Output: path[]
  * Note: Time complexity: O(n^2), v is souce node.
- **********************************************/
+ */
 #define NMAX 100000
-void dijkstra(int n, int path[])
+static void dijkstra(int n, int path[])
 {
 	int dis[NMAX], used[NMAX];
 	int i, j, v, u, ldis;
@@ -118,46 +122,3 @@ void floyd(int n)
 						path[i][j] = path[k][j];
 					}
 }
-
-/***********************************
- * Description: Bipartite matching
- * Input: 1.nx:left part points number, 2.ny:left part points number.
- * Output: res, maxmium matching number.
- * Note: Time complexity: O(n^3).
- * **********************************/
-#define MAXN 201
-int g[MAXN][MAXN], cx[MAXN], cy[MAXN], used[MAN];
-int nx, ny;
-int path(int u)
-{
-	int i;
-	for (i = 0; i < ny; i++)
-	{
-		if (g[u][i] && !used[i])
-		{
-			used[i] = 1;
-			if (cy[i] == -1 || path(cy[i]))
-			{
-				cx[u] = i;
-				cy[i] = u;
-				return 1;
-			}
-		}
-	}
-	return 0;
-}
-int maxmatch()
-{
-	int i, res;
-	res = 0;
-	memset(cx, 0xff, sizeof(cx));
-	memset(cy, 0xff, sizeof(cy));
-	for (i = 0; i < nx; i++)
-		if (cx[i] == -1)
-		{
-			memset(used, 0, sizeof(used));
-			res += path(i);
-		}
-	return res;
-}
-

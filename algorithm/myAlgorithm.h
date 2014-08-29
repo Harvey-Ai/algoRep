@@ -20,5 +20,8 @@ extern int maxMatch(vector< vector<int> > graph);
  * Complexity: O(n^2).
  */
 extern int MST(int n, int tree[]);
+
 extern void dijkstra(int n, int path[]);
+
+
 extern void floyd(int n);

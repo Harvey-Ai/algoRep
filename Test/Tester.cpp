@@ -2,6 +2,6 @@
 
 int main()
 {
-	loadTester();
 	runTester();
+	return 0;
 }
