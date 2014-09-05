@@ -1,2 +1,0 @@
-
-all: myAlgorithm.h
