@@ -7,7 +7,7 @@
 
 /*
  * Greatest Common Divisor, it works even x, y are negative
- * complexity: O(log n)s
+ * complexity: O(log n)
  */
 template<class T>
 T gcd(T x, T y)

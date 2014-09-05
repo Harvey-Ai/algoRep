@@ -1,11 +1,15 @@
 all:
-	@make -C dataStruct
+	@make -C dataStructure
+	@make -C graph
+	@make -C number
+	@make -C string
 	@make -C Test
-#@make -C algorithm
 
 .PHONY: clean
 
 clean:
-	@make clean -C algorithm
-	@make clean -C dataStruct
-	@make clean -C Test
+	-make clean -C graph
+	-make clean -C dataStruct
+	-make clean -C string
+	-make clean -C number
+	-make clean -C Test

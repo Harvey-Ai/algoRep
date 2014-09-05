@@ -17,14 +17,15 @@ using namespace std;
  * Return: primes number.
  * Complexity: O(n * primesNum)
  */
-int getPrimes(int n, vector<int>& primes)
+template<class T>
+T getPrimes(T n, vector<T>& primes)
 {
 	primes.resize(0);
 
 	int flag[n + 1];
 	memset(flag, 0, sizeof(flag));
 
-	for (int i = 2, int k = 4; i <= n; i++, k += i * 2 - 1)
+	for (int i = 2, k = 4; i <= n; i++, k += i * 2 - 1)
 		if (!flag[i])
 		{
 			primes.push_back(i);
@@ -35,19 +36,13 @@ int getPrimes(int n, vector<int>& primes)
 	return primes.size();
 }
 
-
-/*
- * Get primes 1 ~ n.
- * Input: n.
- * Output: vetor<long long>primes.
- * Return: primes number.
- * Complexity: O(n * primesNum)
- */
-long long getPrimes(long long n, vector<long long>& primes)
+template<>
+long long getPrimes<long long>(long long n, vector<long long>& primes)
 {
 	primes.resize(0);
 	primes.push_back(2);
 
+	long long primeNum = 1;
 	for(long long i = 3;i <= n;i += 2)
 	{
 		bool isPrime = true;
@@ -57,7 +52,7 @@ long long getPrimes(long long n, vector<long long>& primes)
 				isPrime = false;
 				break;
 			}
-		if (isPrimes)
+		if (isPrime)
 		{
 			primeNum++;
 			primes.push_back(i);
@@ -122,7 +117,6 @@ T euler_phi(T n)
 	if (n > 1)	phi = phi / n * (n - 1);
 	return phi;
 }
-
 
 /*
  * Euler function, find how many number is co-primes with n, that smaller

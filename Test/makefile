@@ -2,10 +2,11 @@ allHeader = DSSetTester.h SegTreeTester.h suffixArrTester.h
 target = Tester
 flag =  -g
 
-all:$(allHeader) Tester.cpp
+all: Tester.cpp
 	g++ $(flag) $^ -o $(target)
 
 .PHONY: clean
 
 clean:
-	rm *.o
+	-rm *.o
+	-rm Tester
