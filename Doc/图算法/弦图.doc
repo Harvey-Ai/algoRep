@@ -1,0 +1,71 @@
+定义:无向图中,如果任意边数大于3的环,至少存在一条边连接环中不相邻的某两个点,则称
+此图为弦图（Chordal Graph）.
+joj1036的题目判断无向图是否为弦图,是则输出Perfect,否则输出Imperfect.
+以下是时间复杂度为O(n+m)的算法,n是图的点数,m是图的边数.
+第一步: 给节点编号
+设已编号的节点集合为A,未编号的节点集合为B.
+开始时A为空,B包含所有节点.
+for(num=n-1;num>0;num--) 
+{ 
+	在B中找节点x,使与x相邻的在A集合中的节点数最多,将x编号为num,并从B移入A.
+}
+第二步: 检查
+for(num=0;num<n;num++)
+{
+	对编号为num的节点x,设所有编号大于num且与x相邻的节点集合为C,在集合C
+	中找编号最小的节点y,如果集合C中存在不等于y的节点z,且y与z间没有边,则
+	此图不是弦图,退出.
+}
+检查完了,则此图是弦图.
+******************************************************************************************
+Chordal Graph：图中任何长度不小于4的环都存在弦（连接两个在环中不相邻顶点的边）。
+
+Interval Graph：将图的每个顶点定义成一个区间，顶点间有边当且仅当两个区间相交。
+Interval Graphs都是Chordal Graphs。
+
+Perfect Elimination Order：无向图的顶点的一个排序，将这个作为拓扑序给边定向。满足每个点的前驱集合在原图中都是一个Clique。
+图存在PEO当且仅当它是Chordal Graph。
+
+当图存在PEO时，可以用贪心策略线性地解决几个在一般图中NP-Hard的问题。（Pred(v)表示PEO中在v点之前且与v点有边的顶点集合。）
+(1) Coloring：按照PEO的顺序考察每个点，给它染没有被前驱用掉的最小颜色，也就是说：Color[i]=mex{Color[j]|j∈Pred(i)}。
+(2) Clique：一定具有Pred(v)∪{v}的形式。
+(3) Independent Set：按照PEO的逆序考察每个点，若当前它没有邻接点被选择，就选择它。
+
+PEO的求法：
+(1) Maximum Cardinality Search：每次找与当前序列中邻接的点数最多的点并加入序列中。O(V+E)
+(2) lexBFS：不好实现，略。
+
+对于给定的图和顶点序列，判断是否是PEO：对于序列中的每个点v，找它最靠后的那个前驱u，并判断u是否与v的所有其它前驱有边。O(V+E)
+Chordal Graph Recognition：首先用MCS求出一个序列，再用上述方法判断它是不是PEO。
+
+Simplicial Vertex: 邻接点的集合是一个Clique的顶点。
+Chodal Graphs中肯定存在Simpicial Vertex（PEO的最后一个点）。所以PEO也可以通过不断找Simplicial Vertex并删除的方法求出（复杂度大）。事实上，只要Chodal Graphs不是完全图，至少存在两个Simplicial Vertices（PEO的最后一个点，以及不与最后一个点邻接的最靠后的点）。
+
+Comparability Graph：存在满足无环(acyclic)和传递性(transitive)的边定向方式的无向图。其中传递性指：若存在边(u,v)和(v,w)则必存在边(u,w)。
+Inverval Graph的补图是Comparability Graph（存在边的两个顶点的区间都是不相交的，按照区间的左右关系定向即可），逆命题不成立。Comparability Graphs与Chordal Graphs没有什么特别的关系。
+
+Comparability Graph Recognition：暂略。
+
+在Comparability Graph上可以定义每个顶点的Layer：L(v)=1+max(L(w)|w->v)。
+L就是图的一种最优Coloring，同样选择L不同的顶点就是最大Clique。图的色数和团数都是最大的L值。
+Minimum Clique Cover：流找出图的最小路径覆盖（用匹配），这就是Minimum Clique Cover了。这个值同样等于Independent Set的值。
+
+Interval Graph Recognition：
+(1) 一个图是Inverval Graph当且仅当它是Chordal Graph且它的补图是Comparability Graph。
+(2) 一个图是Interval Graph当且仅当它的所有Maximal Clique可以被指定一个顺序，满足任何属于其中两个Clique的顶点也属于序列中处于这两个Clique中间的Clique。
+算法是找出所有Maximal Clique并判断是否能如此排序。
+用Chordal Graph的方法找出所有Maximal Clique。前述Chordal Graph的Clique形式Pred(v)∪{v}不是Clique当且仅当存在一个v的后继w，使v是w的最后一个前驱，且indeg(w)=indeg(v)+1。
+然后要用PQ-Tree了，还不会呢……
+
+Perfect Graph：满足团数等于色数且所有生成子图也满足的图。上面提到的一堆图都属于Perfect Graphs。
+完美图的补图也是完美图。所以完美图（及其所有子图）满足：团数等于色数，独立数等于最小团覆盖数。这些数对于完美图都可以多项式地求出，但是我都不会求。
+
+Intersection Graph：每个点代表一个集合，两个点有边当且仅当两个集合有公共元素。
+所有图都是Intersection Graph，这是显然的。
+一个图是Chordal Graph当且仅当它可以表示成一棵树的若干个子树的Intersection Graph。
+
+Interval Graph的扩展：
+(1) Circular-arc Graph就是将Interval Graph中的区间改成圆上的圆弧。
+Circular-arc Graph不一定是Chordal Graph，也不一定是Perfect Graph。
+(2) Boxicity Graph，将Interval Graph中的区间改成多维矩形。每个图都是Boxiicity Graph，对于适当的维d。对于Boxicity-2 Graphs，Clique是P的（算法？），但Independent Set依然NP-Hard。
+(3) k-Interval Graph 每个点表示至多k个区间。

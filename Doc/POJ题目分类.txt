@@ -1,0 +1,107 @@
++ 数据结构
+    POJ 2352 Stars              （树状数组，统计）
+    POJ 2299 Ultra-QuickSort        (树状数组求逆序数）
+    POJ 2453 An Easy Problem    (统计数字的二进制中1的个数）
+    POJ 3368 Frequent values        (询问区间数字出现的最大频率，典型的RMQ问题，由于区间数字有序，先压缩数组，统计出数字出现的次数，
+                                        然后转换成求区间最值问题， 用Sparse table实现RMQ）
+    RQNOJ 331 家族                    (并查集直接应用）
+    POJ 1988 Cube Stacking          (N个长链，可以合并，需要询问两节点是否在一个链中，以及节点之下的节点数，
+                                        解法时添加辅助数组，记录当前节点到父亲节点之间的节点数，可以进行压缩路径）
+    POJ 1182 食物链                (一个食物链做一个集合，可能出现多个集合，当又关系牵扯到两个集合时，进行检查并合并）
+    
+
++ 字符串
+=================
+        POJ 3461 Oulipo.cpp （kmp）
+        HDU 1867 A + B for you again （kmp）
+        POJ 2406 Power Strings  (kmp应用, 求最大循环节，注意推导)
+        POJ 2752 Seek the Name, Seek the Fame   （kmp，输出最后一项next）
+        HDU 2594 Simpsons’ Hidden Talents   (kmp， 同HDU 1867)
+        HDU 3746 Cyclic Nacklace    (KMP，求出最小循环单元，再减去循环单元）
+        POJ 1509 Glass Beads        (最小表示法，求最小字符串起始位置）
+        POJ 1635 Subway tree systems （最小表示法，让树的子节点有序）
+
+
+=================
++ 动态规划
+    * 经典题目
+        POJ 1163 the Triangle   (多段决策）
+        POJ 1579 Function Run Fun   （记忆化搜索）
+        POJ 1953 World Cup Noise    (与楼梯走法数相似）
+        POJ 1458 Common Subsequence （经典最长公共子序列）
+        POJ 2250 Compromise （增加附加路径数组记录决策）
+        POJ 1159 Palindrome （变为回文数的最少代价，求出顺串与反串的最长公共子序列，结果为n - 最长公共子序列长度）
+        POJ 1080 Humman Gene Function   (dp[i][j]记录前i位和前j位的匹配最小代价）
+        POJ 2192 Zipper （dp[i][j]记录str1的的前i位和str2的前j位是否能组成str3的前(i + j)位）
+        POJ 3356 AGTC   (还是求最小更改代价，先求出最长公共子序列，然后用总长度减去最长序列长度即可）
+        POJ 1887 Testing the CATCHER    （最长递增子序列, n * log(n), 2533 Longest Ordered Subsequence和本题一样)
+        POJ 1157 LITTLE SHOP OF FLOWERS （按题意动规）
+        POJ 1088 滑雪 （记忆化搜索）
+        POJ 3018 Giftbox        (求多维元素的顺序链，记忆化搜索）
+        POJ 1050 To the Max （二维最大子段和， O(n^ 3)）
+        POJ 1160 post office    (dp[i][j]表示前i个邮局覆盖前j个村庄， dp[i][j] = min{ dp[i - 1][k] + cost[k + 1][j] } (k <= j) )
+        POJ 1179 Polygon    (记忆化搜索，注意负负得正得情况，要记录最小负数和最大正数）
+        POJ 2127 Greatest Common Increasing Subsequence （修改dp表示，dp[i][j]表示str1的第i位和str2的前j位的最长递增序列，dp[i][j] = max { dp[k][j - 1] + (arr1[i] == arr2[j] } (k < i) )
+        POJ 1631 Bridging Signals   （最长子序列 n * logn 方法）
+
+    * 状态压缩
+        RQNOJ 17 青蛙过河   （典型压缩状态DP）
+        POJ 3254 Corn Fields
+        POJ 1185 炮兵阵地--经典状压DP
+        POJ 2411 Mondriaan's Dream
+        POJ 3229 The Best Travel Design
+        POJ 2688 Cleaning Robot
+        POJ 1669 Best Sequence
+        POJ 3311 Hie with the Pie
+        ZOJ 3471 Most Powerful
+    
+    * 组合数
+        POJ 1664 放苹果
+
+=================
++ 搜索
+    POJ 1077 Eight  （经典八数码问题， A*搜索）
+    RQNOJ 240 埃及分数  (迭代加深搜索，不能用宽搜，宽搜有大量无用解）
+
+=================
++ 图算法
+    POJ 1125 Stockbroker Grapevine   （有向图最短路径， floyd）
+    HDU 4635 Strongly connected     (先用tarjan找出强联通子图，进行缩点，然后找出含有出度或入度最多的点，
+                                        注意：tarjan的low更新时，可能含有访问过但不在栈中的儿子节点，不能取这个儿子的low或dnf值）
+    POJ 1985 Cow Marathon           (求DAG的最长路径，两次DFS，相当于先取路径上的点找出最远点，再用最远点DFS一下整个树）
+    POJ 2631 Roads in the North     (和POJ 1985一样）
+    POJ 3207 Ikki's Story IV - Panda's Trick    (2-SAT问题，把一条边拆成两个点，分别对应内边和外边，然后建立2-SAT图，
+                                                    然后用tarjan判断联通图中是否同时包含内边和外边两个点）
+    POJ 3678 Katu Puzzle               (2-SAT问题，主要在于建图，有向图边表示必然的推导关系）
+    POJ 2723 Get Luffy Out              (2-SAT问题， 给N组钥匙，每组两把，但只能用其中一把，同样有M个门，每个门上有两个锁，
+                                        可以被某些钥匙打开，只要一个锁打开，门就可以被打开，问最多能连续开多少扇门。
+                                        二分枚举最多门的序号，把钥匙作为SAT的原子，钥匙组之间有互斥，所以i->～j, j->～i，打开锁上也有
+                                        推导关系～k->l，～k->l,建立2-SAT图，然后进行判断。）
+    
+=================
++ 网络流
+    * Edmond-Karp算法
+        POJ 1273 Drainage Ditches   (直接用Edmond-Karp算法，广搜找增广路径)
+    
+    * 二分匹配
+        POJ 1469 COURSES    (最大匹配）
+        ZOJ 1654 Place the Robots   (行列最小覆盖集）
+        POJ 2195 Going Home （最佳匹配）
+        POJ 1422 Air Raid （DAG图最小覆盖集 = 点数 - 最大匹配数）
+        POJ 3041 Asteroids  (二分图最小点覆盖 = 最大匹配数）
+        POJ 2536 Gopher II (有限制上界，最大匹配）
+        POJ 2226 Muddy Fields   (有限制的 行列最小覆盖集）
+        POJ 1466 Girls and Boys (二分图最大独立集 = 节点数 - 最大匹配数， 注意两边节点意义相同， 要除2）
+        POJ 2594 Treasure Exploration   (图最小覆盖集 = 节点数 - 最大匹配数， 此题要先用floyd求可达性)
+        ZOJ 1638 Greedy Island  (!未完成，可以建立二分图，左边a + b + c个点，右边3m个点，题目除了要求不同属性最高，还要求总属性最高）
+        HDU 1150 Machine Schedule   (最大二分匹配）
+        HDU 1151 Air Raid （DAG图最小覆盖集 = 点数 - 最大匹配数）
+
+=================
++ 计算几何
+    POJ 1569 Myacm Triangles  （叉乘，判断是否在三角形内部）
+    POJ 1654 Area   (叉乘， 海伦公式，可求凹凸多边形面积）
+
+=================
++ 概率
+    NOJ 1343 3SAT问题     (带权3-SAT问题，求出SAT表达式的最大权值和，蒙特卡洛法，知道两次最值相等跳出，最值像等次数越多，答案准确率越高）

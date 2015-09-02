@@ -1,4 +1,5 @@
 codeRep
 =======
+Harvey-Ai's algorightm &amp; data structure reporisotry.
 
-Data Structure &amp; Algorithm
+All Rights Reserved.

@@ -2,48 +2,6 @@
 #include <vector>
 #include "myGraph.h"
 
-namespace maxMatchNS
-{
-    int nx, ny;
-    vector<int> matchX, matchY;
-    vector< vector<int> > biGraph;
-
-    void initialize(vector< vector<int> > graph)
-    {
-        nx = graph.size();
-        ny = graph[0].size();
-        matchX.resize(nx);
-        matchY.resize(ny);
-        biGraph = graph;
-
-       for(int i = 0;i < nx;i++)
-            matchX[i] = -1;
-       for(int i = 0;i < ny;i++)
-            matchY[i] = -1;
-    }
-}
-
-vector<int> yUsed;
-// find augment path
-int path(int xNode)
-{
-    for(int i = 0;i < maxMatchNS::ny;i++)
-    {
-        if (maxMatchNS::biGraph[xNode][i] && !yUsed[i])
-        {
-            yUsed[i] = 1;
-
-            if (maxMatchNS::matchY[i] == -1 || path(maxMatchNS::matchY[i]))
-            {
-                maxMatchNS::matchX[xNode] = i;
-                maxMatchNS::matchY[i] = xNode;
-                return 1;
-            }
-        }
-    }
-    return 0;
-}
-
 
 /*
  * Edmonds's matching
@@ -51,18 +9,46 @@ int path(int xNode)
  * Output: max match number.
  * Time complexity: O(n ^ E).
  */
+
+int graph[N][N];
+int matchX[N], matchY[N];
+int visitedY[N];
+int nx, ny;
+
+bool findAug(int x);
+
 int maxMatch(vector< vector<int> > graph)
 {
-    maxMatchNS::initialize(graph);
-    yUsed.resize(maxMatchNS::ny);
+	for(int i = 0;i < nx;i++)
+		matchX[i] = -1;
+	for(int i = 0;i < ny;i++)
+		matchY[i] = -1;
 
     int res = 0;
-    for(int i = 0;i < maxMatchNS::nx;i++)
+    for(int i = 0;i < nx;i++)
     {
-        for(int j = 0;j < maxMatchNS::ny;j++)
-            yUsed[j] = 0;
-        res += path(i);
+    	memset(visitedY, 0, sizeof(visitedY));
+        if(findAug(i))
+        	res++;
     }
 
     return res;
+}
+
+// use DFS to find augment path, capable for dense graph.
+// ! BFS is capable for sparse graph.
+bool findAug(int x)
+{
+    for(int i = 0;i < ny;i++)
+        if (graph[x][i] && !visitedY[i])
+        {
+        	visitedY[i] = 1;
+        	if (matchY[i] == -1 || findAug(matchY[i]))
+        	{
+                matchX[x] = i;
+                matchY[i] = x;
+                return true;
+            }
+        }
+    return false;
 }
