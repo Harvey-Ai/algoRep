@@ -1,4 +1,4 @@
-codeRep
+AlgorithmRep
 =======
 Harvey-Ai's algorightm &amp; data structure reporisotry.
 
